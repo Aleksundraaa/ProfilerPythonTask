@@ -20,3 +20,11 @@ def profiler_exit(func_id, start_time):
     s.max_time = max(s.max_time, elapsed)
     s.min_time = max(s.min_time, elapsed)
 
+def profile(func):
+    def wrapper(*args, **kwargs):
+        start = profiler_enter(func.__qualname__)
+        result = func(*args, **kwargs)
+        exit = profiler_exit(func.__qualname__, start)
+        return result
+    return wrapper
+
